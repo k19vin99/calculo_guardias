@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Listado de Sucursales{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4 text-center">Lista de Sucursales Registradas</h1>
+
+    <!-- Tabla de sucursales -->
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Dirección</th>
+                    <th>Latitud</th>
+                    <th>Longitud</th>
+                    <th>Requerimiento de Turnos</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sucursal in sucursales %}
+                    <tr>
+                        <td>{{ sucursal.nombre }}</td>
+                        <td>{{ sucursal.direccion }}</td>
+                        <td>{{ sucursal.latitud }}</td>
+                        <td>{{ sucursal.longitud }}</td>
+                        <td>{{ sucursal.requerimiento_turnos }}</td>
+                        <td>
+                            {% if sucursal.id %}
+                                <a href="{% url 'editar_sucursal' sucursal.id %}" class="btn btn-sm btn-primary">Editar</a>
+                                <a href="{% url 'eliminar_sucursal' sucursal.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+                                <a href="{% url 'ver_usuarios_asignados' sucursal.id %}" class="btn btn-sm btn-info">Ver Usuarios</a>
+                            {% else %}
+                                <span class="text-danger">ID inválido</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center text-muted">No hay sucursales registradas.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Botón para registrar nuevas sucursales -->
+    <div class="text-center mt-3">
+        <a href="{% url 'registrar_sucursal' %}" class="btn btn-success">
+            Registrar Nueva Sucursal
+        </a>
+        <a href="{% url 'exportar_sucursales_excel' %}" class="btn btn-info">
+            Exportar a Excel
+        </a>
+    </div>
+</div>
+{% endblock %}

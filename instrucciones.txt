@@ -1,0 +1,40 @@
+1. Preparativos antes de importar
+Instala PostgreSQL: Asegúrate de tener PostgreSQL instalado en tu sistema Windows.
+Archivo SQL: Ubica el archivo .sql que deseas importar (por ejemplo, respaldo_guardias.sql).
+Acceso a la base de datos: Asegúrate de tener:
+El nombre del usuario de PostgreSQL.
+El nombre de la base de datos (debe existir previamente).
+La contraseña del usuario de PostgreSQL.
+2. Crear la base de datos si no existe
+Antes de importar, debes asegurarte de que la base de datos exista. Si no existe, puedes crearla usando el siguiente comando desde la terminal de PostgreSQL:
+
+createdb -U nombre_usuario nombre_base_de_datos
+
+Ejemplo:
+
+createdb -U postgres nueva_base
+
+3. Importar el archivo .sql usando psql
+
+Una vez que tengas todo listo, puedes importar la base de datos ejecutando el siguiente comando desde la terminal de Windows:
+
+psql -U nombre_usuario -d nombre_base_de_datos -f ruta_al_archivo.sql
+
+Parámetros:
+-U nombre_usuario: El usuario de PostgreSQL.
+-d nombre_base_de_datos: La base de datos donde se importarán los datos.
+-f ruta_al_archivo.sql: La ruta completa del archivo SQL que quieres importar.
+
+
+Cambiar en Settings:
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'bd',
+        'USER': 'user',
+        'PASSWORD': 'pass',
+        'HOST':'localhost',
+        'PORT':'',
+    }
+}

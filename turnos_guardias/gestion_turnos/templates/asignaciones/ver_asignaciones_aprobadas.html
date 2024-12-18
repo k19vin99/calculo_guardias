@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Asignaciones Aprobadas{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Guardias Asignados a Sucursales</h1>
+
+    <!-- Tabla de Asignaciones -->
+    {% if asignaciones %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Guardia</th>
+                    <th>Sucursal</th>
+                    <th>Turno</th>
+                    <th>Fecha de Aceptación</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for asignacion in asignaciones %}
+                <tr>
+                    <td>{{ asignacion.guardia.username }}</td>
+                    <td>{{ asignacion.sucursal.nombre }}</td>
+                    <td>
+                        {% if asignacion.turno == 1 %}
+                            Mañana
+                        {% elif asignacion.turno == 2 %}
+                            Tarde
+                        {% elif asignacion.turno == 3 %}
+                            Noche
+                        {% else %}
+                            No especificado
+                        {% endif %}
+                    </td>
+                    <td>{{ asignacion.fecha_envio }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <!-- Mensaje de no asignaciones -->
+        <p class="text-center text-muted fs-5">No hay asignaciones aprobadas.</p>
+    {% endif %}
+
+    <!-- Botón de regreso -->
+    <div class="text-center mt-3">
+        <a href="{% url 'home' %}" class="btn btn-primary">Volver al Home</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Mis Notificaciones{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Mis Notificaciones</h1>
+
+    {% if notificaciones %}
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-bordered text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Sucursal</th>
+                        <th>Turno</th>
+                        <th>Fecha de Envío</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for notificacion in notificaciones %}
+                    <tr>
+                        <td>{{ notificacion.sucursal.nombre }}</td>
+                        <td>
+                            {% if notificacion.turno == 1 %} Mañana
+                            {% elif notificacion.turno == 2 %} Tarde
+                            {% elif notificacion.turno == 3 %} Noche
+                            {% endif %}
+                        </td>
+                        <td>{{ notificacion.fecha_envio }}</td>
+                        <td>
+                            <a href="{% url 'responder_notificacion' notificacion.id 'aceptar' %}" class="btn btn-success btn-sm">Aceptar</a>
+                            <a href="{% url 'responder_notificacion' notificacion.id 'rechazar' %}" class="btn btn-danger btn-sm">Rechazar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="text-center text-muted fs-5">No tienes notificaciones pendientes.</p>
+    {% endif %}
+
+    <div class="text-center mt-3">
+        <a href="{% url 'home' %}" class="btn btn-primary">Volver al Home</a>
+    </div>
+</div>
+{% endblock %}

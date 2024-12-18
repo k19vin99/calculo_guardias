@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Gestión de Guardias{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="text-center mb-4">
+        <h1 class="display-4">Bienvenido al Sistema de Optimización de Turnos</h1>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="list-group">
+                {% if user.groups.all.0.name == 'supervisores' %}
+                    <a href="{% url 'ver_asignaciones_aprobadas' %}" class="list-group-item list-group-item-action">
+                        Ver Asignaciones Aprobadas
+                    </a>
+                    <a href="{% url 'ver_usuarios' %}" class="list-group-item list-group-item-action">
+                        Usuarios
+                    </a>
+                    <a href="{% url 'ver_sucursales' %}" class="list-group-item list-group-item-action">
+                        Sucursales
+                    </a>
+                    <a href="{% url 'calcular_guardias_cercanos' %}" class="list-group-item list-group-item-action">
+                        Optimización de Recursos Humanos
+                    </a>
+                    <a href="{% url 'ver_notificaciones' %}" class="list-group-item list-group-item-action">
+                        Ver Mis Notificaciones
+                    </a>
+                    <a href="{% url 'logout' %}" class="list-group-item list-group-item-action text-danger">
+                        Cerrar Sesión
+                    </a>
+                {% else %}
+                    <a href="{% url 'ver_notificaciones' %}" class="list-group-item list-group-item-action">
+                        Ver Mis Notificaciones
+                    </a>
+                    <a href="{% url 'ver_sucursales_asignadas' %}" class="list-group-item list-group-item-action">
+                        Mis Sucursales Asignadas
+                    </a>
+                    <a href="{% url 'logout' %}" class="list-group-item list-group-item-action text-danger">
+                        Cerrar Sesión
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Eliminar Guardia{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <!-- Tarjeta de Confirmación -->
+            <div class="card shadow-lg">
+                <div class="card-header bg-danger text-white text-center">
+                    <h2>Eliminar Guardia</h2>
+                </div>
+                <div class="card-body text-center">
+                    <!-- Mensaje de confirmación -->
+                    <p class="fs-5">
+                        ¿Estás seguro de que deseas eliminar al guardia 
+                        <strong>"{{ object.user.username }}"</strong>?
+                    </p>
+                    <!-- Formulario de confirmación -->
+                    <form method="post" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger me-2">Sí, Eliminar</button>
+                    </form>
+                    <!-- Botón Cancelar -->
+                    <a href="{% url 'ver_usuarios' %}" class="btn btn-outline-secondary">Cancelar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

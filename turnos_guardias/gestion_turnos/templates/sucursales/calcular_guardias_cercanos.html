@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block title %}Calcular Guardias Cercanos a Sucursales{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4 text-center">Seleccionar Sucursal para Calcular Guardias Cercanos</h1>
+
+    <!-- Formulario -->
+    <form method="GET" action="" class="row g-3 justify-content-center mb-4">
+        <div class="col-md-6">
+            <label for="sucursal" class="form-label">Seleccione una Sucursal:</label>
+            <select name="sucursal" id="sucursal" class="form-select">
+                <option value="">Seleccione una sucursal</option>
+                {% for sucursal in sucursales %}
+                    <option value="{{ sucursal.id }}"
+                        {% if sucursal and sucursal.id == sucursal.id %}selected{% endif %}>
+                        {{ sucursal.nombre }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Calcular</button>
+        </div>
+    </form>
+
+    <!-- Información de Sucursal Seleccionada -->
+    {% if sucursal %}
+        <div class="alert alert-info text-center">
+            <h2 class="mb-3">Sucursal Seleccionada: {{ sucursal.nombre }}</h2>
+            <p class="mb-1"><strong>Dirección:</strong> {{ sucursal.direccion }}</p>
+            <p><strong>Turnos Requeridos:</strong> {{ requerimiento_turnos }}</p>
+        </div>
+    {% endif %}
+
+    <!-- Guardias Cercanos -->
+    {% if guardias_cercanos %}
+        <h2 class="mb-3 text-center">Guardias Más Cercanos</h2>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-bordered text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Guardia</th>
+                        <th>Dirección</th>
+                        <th>Distancia (Km)</th>
+                        <th>Tiempo (Minutos)</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for guardia in guardias_cercanos %}
+                    <tr>
+                        <td>{{ guardia.nombre }}</td>
+                        <td>{{ guardia.direccion }}</td>
+                        <td>{{ guardia.distancia }}</td>
+                        <td>{{ guardia.tiempo }}</td>
+                        <td>
+                            <form method="POST" action="{% url 'enviar_notificacion' guardia.id sucursal.id 1 %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-success">Enviar Notificación</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        {% if sucursal %}
+            <p class="text-muted text-center">No se encontraron guardias cercanos.</p>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}Usuarios Asignados{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-3 text-center">Usuarios Asignados a {{ sucursal.nombre }}</h1>
+    <h3 class="text-center text-muted mb-4">Dirección: {{ sucursal.direccion }}</h3>
+
+    <!-- Tabla de Notificaciones -->
+    {% if notificaciones %}
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-bordered text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Guardia</th>
+                        <th>Turno</th>
+                        <th>Fecha de Notificación</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for notificacion in notificaciones %}
+                    <tr>
+                        <td>{{ notificacion.guardia.username }}</td>
+                        <td>
+                            {% if notificacion.turno == 1 %}
+                                Mañana
+                            {% elif notificacion.turno == 2 %}
+                                Tarde
+                            {% elif notificacion.turno == 3 %}
+                                Noche
+                            {% endif %}
+                        </td>
+                        <td>{{ notificacion.fecha_envio }}</td>
+                        <td>
+                            <!-- Botón para desasignar usuario -->
+                            <form method="POST" action="{% url 'desasignar_usuario' notificacion.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    Desasignar
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <!-- Mensaje si no hay usuarios asignados -->
+        <p class="text-center text-muted fs-5">No hay usuarios asignados a esta sucursal.</p>
+    {% endif %}
+
+    <!-- Botón para regresar -->
+    <div class="text-center mt-3">
+        <a href="{% url 'ver_sucursales' %}" class="btn btn-primary">Volver a la lista de Sucursales</a>
+        <a href="{% url 'exportar_usuarios_asignados' sucursal.id %}" class="btn btn-info">
+            Exportar a Excel
+        </a>
+    </div>
+</div>
+{% endblock %}

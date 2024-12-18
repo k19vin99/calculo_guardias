@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Notificación Enviada{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="alert alert-success text-center">
+        <h2 class="mb-4">¡Notificación Enviada con Éxito!</h2>
+        <p><strong>Guardia:</strong> {{ guardia.username }}</p>
+        <p><strong>Sucursal:</strong> {{ sucursal.nombre }}</p>
+        <p>
+            <strong>Turno:</strong>
+            {% if turno == 1 %} Mañana
+            {% elif turno == 2 %} Tarde
+            {% elif turno == 3 %} Noche
+            {% endif %}
+        </p>
+        <p><strong>Fecha de Envío:</strong> {{ fecha_envio }}</p>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="{% url 'home' %}" class="btn btn-primary">Volver al Home</a>
+        <a href="{% url 'calcular_guardias_cercanos' %}" class="btn btn-secondary">Enviar Otra Notificación</a>
+    </div>
+</div>
+{% endblock %}
